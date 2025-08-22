@@ -34,6 +34,7 @@ namespace POO_firstTry
 
             firstRace.StartRace();
             //firstRace.DisplayHistory();
+            Console.WriteLine($"{" FINISH ",150}");
             firstRace.DisplayRaceResult();
             
         }

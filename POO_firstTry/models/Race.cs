@@ -17,6 +17,8 @@ namespace POO_firstTry.models
 
         public List<RaceResult> RaceResult { get; set; } = new();
 
+        public List<RaceResult> LiveResult { get; set; } = new();
+
         public Race(List<Car> cars, Track track)
         {
             Cars = cars;
@@ -41,15 +43,18 @@ namespace POO_firstTry.models
                     int speed = car.GetSpeed();
                     float timePerLap;
                     float fuelConsumptionPrevision = FuelByLap(car, speed);
-                    float pitStopTime = 0;
+                    float pitStopTime = 0; 
                     bool isPitStop = false;
+
+
 
                     if (!car.MoreFuelThen(fuelConsumptionPrevision))
                     {
+                        isPitStop = true;
                         car.AddFuel();
-
                         pitStopTime = Track.PitStopTime;
-                        isPitStop = true;                    }
+                    }
+
 
                     timePerLap = GetLapTimeSeconds(speed) + pitStopTime;
                     car.FuelInTank = car.FuelInTank - fuelConsumptionPrevision;
@@ -58,14 +63,25 @@ namespace POO_firstTry.models
                         car, 
                         speed, 
                         i + 1, 
-                        GetLapTimeSeconds(speed), 
+                        timePerLap, 
                         isPitStop? 1 : null));
                 }
+
+                if(i < Track.Lap - 1)
+                {
+                    Console.WriteLine($"{"Lap "+ (i+1), 150}");
+                    DisplayLapResult();
+
+                }
+
+
             }
 
             isFinished = true;
+            
         }
 
+        
         public void DisplayHistory()
         {
             foreach(LapRecord record in History)
@@ -121,6 +137,17 @@ namespace POO_firstTry.models
                 OrderResult();
             }
         }
+        private void GetLapResults()
+        {
+            LiveResult.Clear();
+            foreach (Car car in Cars)
+            {
+                LiveResult.Add(new RaceResult(car, GetRaceTime(car), GetMaxSpeed(car), GetMinSpeed(car), car.FuelInTank, GetPitStop(car)));
+            }
+            LiveResult = LiveResult
+                            .OrderBy(record => record.Time)
+                            .ToList();
+        }
         public void DisplayRaceResult()
         {
             GetRaceResults();
@@ -128,6 +155,16 @@ namespace POO_firstTry.models
             Console.WriteLine($"{"Car", -25} {"Time",25} {"MaxSpeed",10} {"MinSpeed",10} {"Fuel",10} {"PitStop",7}\n");
             foreach (RaceResult RaceResult in RaceResult) {
                 RaceResult.DisplayResult();
+            }
+        }
+        public void DisplayLapResult()
+        {
+            GetLapResults();
+
+            Console.WriteLine($"{"Car",-25} {"Time",25} {"MaxSpeed",10} {"MinSpeed",10} {"Fuel",10} {"PitStop",7}\n");
+            foreach (RaceResult LapResult in LiveResult)
+            {
+                LapResult.DisplayResult();
             }
         }
         public float FuelByLap(Car car, int speed)
