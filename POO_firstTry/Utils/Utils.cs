@@ -8,12 +8,15 @@ namespace POO_firstTry.Utils
 {
     public static class Utils
     {
+        
 
         public static int RandomRange(int lowerBound, int higherBound)
         {
             Random rng = new Random();
             return rng.Next(lowerBound, higherBound);
         }
-            
+
+
+
     }
 }
