@@ -39,7 +39,27 @@ namespace POO_firstTry.models
                 foreach (Car car in Cars)
                 {
                     int speed = car.GetSpeed();
-                    History.Add(new LapRecord(car, speed, i + 1, GetLapTimeSeconds(speed) ));
+                    float timePerLap;
+                    float fuelConsumptionPrevision = FuelByLap(car, speed);
+                    float pitStopTime = 0;
+                    bool isPitStop = false;
+
+                    if (!car.MoreFuelThen(fuelConsumptionPrevision))
+                    {
+                        car.AddFuel();
+
+                        pitStopTime = Track.PitStopTime;
+                        isPitStop = true;                    }
+
+                    timePerLap = GetLapTimeSeconds(speed) + pitStopTime;
+                    car.FuelInTank = car.FuelInTank - fuelConsumptionPrevision;
+
+                    History.Add(new LapRecord(
+                        car, 
+                        speed, 
+                        i + 1, 
+                        GetLapTimeSeconds(speed), 
+                        isPitStop? 1 : null));
                 }
             }
 
@@ -78,34 +98,43 @@ namespace POO_firstTry.models
                     .Where(record => record.Car.RegNumber == car.RegNumber)
                     .Min(record => record.Speed);
         }
+        private int GetPitStop(Car car)
+        {
+            return History
+                    .Where(record => record.Car.RegNumber == car.RegNumber)
+                    .Sum(record => record.PitStop > 0 ? (int)record.PitStop : 0);
+        }
         private void OrderResult()
         {
             RaceResult = RaceResult
                             .OrderBy(record => record.Time)
                             .ToList();
         }
-
         private void GetRaceResults()
         {
             if (isFinished)
             {
                 foreach(Car car in Cars)
                 {
-                    RaceResult.Add(new RaceResult(car, GetRaceTime(car), GetMaxSpeed(car), GetMinSpeed(car)));
+                    RaceResult.Add(new RaceResult(car, GetRaceTime(car), GetMaxSpeed(car), GetMinSpeed(car), car.FuelInTank, GetPitStop(car)));
                 }
                 OrderResult();
             }
         }
-
         public void DisplayRaceResult()
         {
             GetRaceResults();
 
-            Console.WriteLine($"{"Car", -25} {"Time",25} {"MaxSpeed",10} {"MinSpeed",10}\n");
+            Console.WriteLine($"{"Car", -25} {"Time",25} {"MaxSpeed",10} {"MinSpeed",10} {"Fuel",10} {"PitStop",7}\n");
             foreach (RaceResult RaceResult in RaceResult) {
                 RaceResult.DisplayResult();
             }
         }
+        public float FuelByLap(Car car, int speed)
+        {
+            return (car.FuelConsumptionPer100Km(speed) / 100) * Track.Distance;
+        }
+        
 
     }
 }

@@ -13,12 +13,14 @@ namespace POO_firstTry.models
         public int Lap {  get; set; }
 
         public float Time { get; set; }
+        public int? PitStop { get; set; }
 
-        public LapRecord(Car car, int speed, int lap, float time) {
+        public LapRecord(Car car, int speed, int lap, float time, int? pitStop = 0) {
             Car = car;
             Speed = speed;
             Lap = lap;
             Time = time;
+            PitStop = pitStop;
         }
 
         public void DisplayHistory()

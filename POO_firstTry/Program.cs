@@ -10,7 +10,7 @@ namespace POO_firstTry
 
             
 
-            Track firstTrack = new Track("Indianapolis", 10, 10);
+            Track firstTrack = new Track("Indianapolis", 20, 15, 250f);
 
             List<Car> cars = new List<Car>() {
                 new Car(new Brand("Ferrari"),      new Model("488"),        16, 300, 350, 1475, 78),

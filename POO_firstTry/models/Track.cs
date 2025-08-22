@@ -11,13 +11,15 @@ namespace POO_firstTry.models
         public string Name { get; set; }
         public int Lap { get; set; }
         public int Distance { get; set; }
+        public float PitStopTime { get; set; }
 
 
-        public Track(string name, int lap, int distance)
+        public Track(string name, int lap, int distance, float pitStopTime)
         {
             Name = name;
             Lap = lap;
             Distance = distance;
+            PitStopTime = pitStopTime;
         }
 
 

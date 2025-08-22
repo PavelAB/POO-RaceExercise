@@ -57,9 +57,21 @@ namespace POO_firstTry.models
             return Utils.Utils.RandomRange(MinSpeed, MaxSpeed);
         }
 
-        private float FuelConsumptionPer100Km(int speed)
+        public float FuelConsumptionPer100Km(int speed)
         {
             return Base + K_weight * ((Weight + FuelInTank) / 1000) + K_speed * (float)Math.Pow((speed / 100), 2);
+        }
+
+        public void AddFuel()
+        {
+            FuelInTank = TankCapacity;
+        }
+
+        public bool MoreFuelThen(float fuel)
+        {
+            if (FuelInTank > fuel)
+                return true;
+            return false;
         }
 
 
