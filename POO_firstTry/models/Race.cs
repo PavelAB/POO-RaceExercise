@@ -40,31 +40,29 @@ namespace POO_firstTry.models
             {
                 foreach (Car car in Cars)
                 {
+
                     int speed = car.GetSpeed();
-                    float timePerLap;
-                    float fuelConsumptionPrevision = FuelByLap(car, speed);
-                    float pitStopTime = 0; 
-                    bool isPitStop = false;
+                    LapRecord lapRecord = new LapRecord(
+                        car,
+                        speed,
+                        i + 1,
+                        GetLapTimeSeconds(speed),
+                        null);
 
 
 
-                    if (!car.MoreFuelThen(fuelConsumptionPrevision))
+
+
+                    bool isPitStop = car.PitStop(speed, Track);
+
+                    if (isPitStop)
                     {
-                        isPitStop = true;
-                        car.AddFuel();
-                        pitStopTime = Track.PitStopTime;
+                        lapRecord.Time += Track.PitStopTime;
+                        lapRecord.PitStop = 1;
                     }
 
+                    History.Add(lapRecord);
 
-                    timePerLap = GetLapTimeSeconds(speed) + pitStopTime;
-                    car.FuelInTank = car.FuelInTank - fuelConsumptionPrevision;
-
-                    History.Add(new LapRecord(
-                        car, 
-                        speed, 
-                        i + 1, 
-                        timePerLap, 
-                        isPitStop? 1 : null));
                 }
 
                 if(i < Track.Lap - 1)
@@ -82,6 +80,8 @@ namespace POO_firstTry.models
         }
 
         
+
+
         public void DisplayHistory()
         {
             foreach(LapRecord record in History)
@@ -167,10 +167,7 @@ namespace POO_firstTry.models
                 LapResult.DisplayResult();
             }
         }
-        public float FuelByLap(Car car, int speed)
-        {
-            return (car.FuelConsumptionPer100Km(speed) / 100) * Track.Distance;
-        }
+        
         
 
     }

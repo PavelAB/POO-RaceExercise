@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.ConstrainedExecution;
 using System.Text;
 using System.Threading.Tasks;
 using POO_firstTry.Utils;
@@ -72,6 +73,33 @@ namespace POO_firstTry.models
             if (FuelInTank > fuel)
                 return true;
             return false;
+        }
+
+        public void RemoveFuel(float fuel)
+        {
+            FuelInTank -= fuel;
+        }
+
+        public bool PitStop(int speed, Track track)
+        {
+            float fuelConsumptionPrevision = FuelByLap(track.Distance, speed);
+
+
+            if (!MoreFuelThen(fuelConsumptionPrevision))
+            {
+                AddFuel();
+                RemoveFuel(fuelConsumptionPrevision);
+                return true;
+            }
+
+            RemoveFuel(fuelConsumptionPrevision);
+            return false;
+
+
+        }
+        public float FuelByLap(int distance, int speed)
+        {
+            return (FuelConsumptionPer100Km(speed) / 100) * distance;
         }
 
 

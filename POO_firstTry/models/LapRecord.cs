@@ -27,5 +27,6 @@ namespace POO_firstTry.models
         {
             Console.WriteLine($"{Car.GetFullName()} - lap: {Lap} - {Speed} - {Time}");
         }
+
     }
 }
