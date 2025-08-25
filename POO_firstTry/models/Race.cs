@@ -27,7 +27,7 @@ namespace POO_firstTry.models
 
         public void DisplayParticipants()
         {
-            foreach(Car car in Cars)
+            foreach (Car car in Cars)
             {
                 car.DisplayInfo();
             }
@@ -36,11 +36,11 @@ namespace POO_firstTry.models
 
         public void StartRace()
         {
-            for(int i = 0; i < Track.Lap; i++)
+            for (int i = 0; i < Track.Lap; i++)
             {
                 foreach (Car car in Cars)
                 {
-
+                    Console.WriteLine("git test");
                     int speed = car.GetSpeed();
                     LapRecord lapRecord = new LapRecord(
                         car,
@@ -65,9 +65,9 @@ namespace POO_firstTry.models
 
                 }
 
-                if(i < Track.Lap - 1)
+                if (i < Track.Lap - 1)
                 {
-                    Console.WriteLine($"{"Lap "+ (i+1), 150}");
+                    Console.WriteLine($"{"Lap " + (i + 1),150}");
                     DisplayLapResult();
 
                 }
@@ -76,15 +76,15 @@ namespace POO_firstTry.models
             }
 
             isFinished = true;
-            
+
         }
 
-        
+
 
 
         public void DisplayHistory()
         {
-            foreach(LapRecord record in History)
+            foreach (LapRecord record in History)
             {
                 record.DisplayHistory();
             }
@@ -93,7 +93,7 @@ namespace POO_firstTry.models
         private float GetLapTimeSeconds(int speed)
         {
             int SECONDS_IN_HOUR = 3600;
-            return ((float)Track.Distance / speed ) * SECONDS_IN_HOUR ; 
+            return ((float)Track.Distance / speed) * SECONDS_IN_HOUR;
         }
         private float GetRaceTime(Car car)
         {
@@ -130,7 +130,7 @@ namespace POO_firstTry.models
         {
             if (isFinished)
             {
-                foreach(Car car in Cars)
+                foreach (Car car in Cars)
                 {
                     RaceResult.Add(new RaceResult(car, GetRaceTime(car), GetMaxSpeed(car), GetMinSpeed(car), car.FuelInTank, GetPitStop(car)));
                 }
@@ -152,8 +152,9 @@ namespace POO_firstTry.models
         {
             GetRaceResults();
 
-            Console.WriteLine($"{"Car", -25} {"Time",25} {"MaxSpeed",10} {"MinSpeed",10} {"Fuel",10} {"PitStop",7}\n");
-            foreach (RaceResult RaceResult in RaceResult) {
+            Console.WriteLine($"{"Car",-25} {"Time",25} {"MaxSpeed",10} {"MinSpeed",10} {"Fuel",10} {"PitStop",7}\n");
+            foreach (RaceResult RaceResult in RaceResult)
+            {
                 RaceResult.DisplayResult();
             }
         }
@@ -167,8 +168,8 @@ namespace POO_firstTry.models
                 LapResult.DisplayResult();
             }
         }
-        
-        
+
+
 
     }
 }

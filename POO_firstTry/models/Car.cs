@@ -83,17 +83,16 @@ namespace POO_firstTry.models
         public bool PitStop(int speed, Track track)
         {
             float fuelConsumptionPrevision = FuelByLap(track.Distance, speed);
-
+            bool isPitStop = false;
 
             if (!MoreFuelThen(fuelConsumptionPrevision))
             {
                 AddFuel();
-                RemoveFuel(fuelConsumptionPrevision);
-                return true;
+                isPitStop = true;
             }
 
             RemoveFuel(fuelConsumptionPrevision);
-            return false;
+            return isPitStop;
 
 
         }
