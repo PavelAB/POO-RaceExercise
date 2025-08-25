@@ -40,7 +40,7 @@ namespace POO_firstTry.models
             {
                 foreach (Car car in Cars)
                 {
-                    Console.WriteLine("git test");
+
                     int speed = car.GetSpeed();
                     LapRecord lapRecord = new LapRecord(
                         car,
